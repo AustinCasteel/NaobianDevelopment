@@ -12,16 +12,16 @@ if [ ! -f $REPO_PATH/home/pi/.naomi/configs/profile.yml ] ;
 then
     # Assume this is a fresh install, setup the system
     tput reset
+    echo -e "\e[32m"
     echo "###################################################"
     echo "#                                                 #"
     echo "#              Naobian Script Update              #"
     echo "#                                                 #"
     echo "###################################################"
-    echo
-    echo
-    echo
+    echo -e "\e[0m"
     echo
     echo "Would you like to install Naobian on this machine?"
+    echo
     echo -n "Choice [Y/N]: "
     read -N1 -s key
     case $key in
