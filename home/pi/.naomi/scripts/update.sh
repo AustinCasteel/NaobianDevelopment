@@ -64,8 +64,9 @@ fi
 # update software
 cd ~
 wget -N $REPO_PATH/home/pi/.bashrc
+cd ~/.naomi/configs/
 wget -N $REPO_PATH/home/pi/.naomi/configs/AIY-asound.conf
-wget -N $REPO_PATH/home/pi/.naomi/scripts/setup_matrix_voice.sh
+cd ~/.naomi/scripts/
 wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_setup.sh
 wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_test.sh
 wget -N $REPO_PATH/home/pi/.naomi/scripts/auto_run.sh
