@@ -25,9 +25,9 @@ then
     esac
 
     # Create basic folder structures
-    sudo mkdir .naomi/
-    mkdir ~/.naomi/configs/
-    mkdir ~/bin
+    sudo mkdir ~/.naomi/
+    sudo mkdir ~/.naomi/configs/
+    sudo mkdir ~/.naomi/scripts/
 
     # Get the Naobian profile file
     cd .naomi/configs/
