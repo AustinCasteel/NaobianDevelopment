@@ -26,10 +26,10 @@ if [ ! -f $REPO_PATH/home/pi/.naomi/configs/profile.yml ] ;
 then
     # Assume this is a fresh install, setup the system
     tput reset
-    echo -e "\e[93m"
+    echo -e "\e[1;93m"
     echo "###################################################"
     echo "#                                                 #"
-    echo -e "#             \e[1;32mNaobian Scripts Update\e[93m              #"
+    echo -e "#             \e[1;32mNaobian Scripts Update\e[1;93m              #"
     echo "#                                                 #"
     echo "###################################################"
     echo -e "\e[0m"
@@ -49,43 +49,44 @@ then
     esac
 
     # Create basic folder structures
+    echo -e "\e[1;32mCreating File Structure...\e[0m"
     sudo mkdir ~/.naomi/
     sudo mkdir ~/.naomi/configs/
     sudo mkdir ~/.naomi/scripts/
 
     # Get the Naobian profile file
+    echo -e "\e[1;32mRetrieving Default Profile...\e[0m"
     cd .naomi/configs/
     sudo wget -N $REPO_PATH/home/pi/.naomi/configs/profile.yml
 
     # Enable Autologin as the 'pi' user
+    echo -e "\e[1;32mEnabling Autologin...\e[0m"
     echo "[Service]" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
     echo "ExecStart=" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
     echo "ExecStart=-/sbin/agetty --autologin pi --noclear %I 38400 linux" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
     sudo systemctl enable getty@tty1.service
 
-    # Create RAM disk
-    echo "tmpfs /ramdisk tmpfs rw,nodev,nosuid,size=20M 0 0" | sudo tee -a /etc/fstab
-
     # Download and setup Naomi
-    echo "Installing 'git'..."
+    echo -e "\e[1;32mInstalling 'git'...\e[0m"
     sudo apt-get install git -y
 
-    echo "Downloading 'Naomi'..."
+    echo -e "\e[1;32mDownloading 'Naomi'...\e[0m"
     cd ~
     git clone https://github.com/NaomiProject/Naomi.git
     cd Naomi
     git checkout master
 
-    echo
+    echo -e "\e[1;36m"
     echo "Beginning the Naobian build process.  This will"
-    echo "take a bit. Results will be in the ~/.naomi/build.log"
+    echo -e "take a bit. Results will be in the \e[1;35m~/.naomi/build.log"
     #bash ~/.naomi/scripts/dev_setup.sh -y 2>&1 | tee ~/.naomi/build.log
-    echo "Build complete.  Press any key to review the output before it is deleted."
+    echo -e "\e[1;36mBuild complete.  Press any key to review the output before it is deleted."
     read -N1 -s key
     #nano ~/.naomi/build.log
 fi
 
 # update software
+echo -e "\e[1;32mUpdating Naobian Scripts...\e[0m"
 cd ~
 wget -N $REPO_PATH/home/pi/.bashrc
 cd ~/.naomi/configs/
