@@ -43,7 +43,7 @@ then
         ;;
 
       *)
-        echo "\e[1;31mAborting install."
+        echo -e "\e[1;31mAborting install."
         exit
         ;;
     esac
