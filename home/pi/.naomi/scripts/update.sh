@@ -109,4 +109,5 @@ sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_options.json
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/naomi-purge
 sudo chmod +x naomi-purge
 sleep 2
+echo -e "\e[1;36m[\e[1;34m?\e[1;36m] Updates Complete\e[0m"
 sudo rm ~/update.sh
