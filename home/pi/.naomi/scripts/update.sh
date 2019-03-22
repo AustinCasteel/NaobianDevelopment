@@ -6,7 +6,7 @@
 # This script is executed by the auto_run.sh when a new version is found
 # at https://github.com/naomiproject/naobian/tree/master
 
-REPO_PATH="https://raw.githubusercontent.com/naomiproject/naobian/master"
+REPO_PATH="https://raw.githubusercontent.com/austincasteel/naobiandevelopment/master"
 
 if [ ! -f $REPO_PATH/home/pi/.naomi/configs/profile.yml ] ;
 then

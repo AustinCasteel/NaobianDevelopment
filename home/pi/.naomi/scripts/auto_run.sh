@@ -283,7 +283,7 @@ function setup_wizard() {
                 echo "The setup script for Matrix Voice Hat will run at the end of"
                 echo "The setup wizard. Press any key to continue..."
                 read -N1 -s anykey
-                touch setup_matrix  # setting flag to run setup_matrix_voice.sh
+                touch setup_matrix
                 skip_mic_test=true
                 skip_last_prompt=true
                 break
@@ -672,7 +672,7 @@ then
     then
         echo "**** Checking for updates to Naobian environment"
         cd /tmp
-        wget -N -q https://raw.githubusercontent.com/NaomiProject/Naobian/master/home/pi/.naomi/scripts/version >/dev/null
+        wget -N -q https://raw.githubusercontent.com/AustinCasteel/NaobianDevelopment/master/home/pi/.naomi/scripts/version >/dev/null
         if [ $? -eq 0 ]
         then
             if [ ! -f ~/.naomi/scripts/version ] ; then
@@ -687,7 +687,7 @@ then
                 speak "Updating Naobian, please hold on."
 
 
-                wget -N -q https://raw.githubusercontent.com/NaomiProject/Naobian/master/home/pi/.naomi/scripts/update.sh
+                wget -N -q https://raw.githubusercontent.com/AustinCasteel/NaobianDevelopment/master/home/pi/.naomi/scripts/update.sh
                 if [ $? -eq 0 ]
                 then
                     source .naomi/scripts/update.sh
