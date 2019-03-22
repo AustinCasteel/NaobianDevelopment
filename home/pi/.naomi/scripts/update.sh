@@ -65,13 +65,13 @@ fi
 cd ~
 wget -N $REPO_PATH/home/pi/.bashrc
 cd ~/.naomi/configs/
-wget -N $REPO_PATH/home/pi/.naomi/configs/AIY-asound.conf
+sudo wget -N $REPO_PATH/home/pi/.naomi/configs/AIY-asound.conf
 cd ~/.naomi/scripts/
-wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_setup.sh
-wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_test.sh
-wget -N $REPO_PATH/home/pi/.naomi/scripts/auto_run.sh
-wget -N $REPO_PATH/home/pi/.naomi/scripts/version
-wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_setup.sh
-wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_options.json
-wget -N $REPO_PATH/home/pi/.naomi/scripts/naomi-purge
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_setup.sh
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_test.sh
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/auto_run.sh
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/version
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_setup.sh
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_options.json
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/naomi-purge
 chmod +x naomi-purge
