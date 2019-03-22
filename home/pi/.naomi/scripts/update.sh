@@ -11,6 +11,8 @@ REPO_PATH="https://raw.githubusercontent.com/austincasteel/naobiandevelopment/ma
 if [ ! -f $REPO_PATH/home/pi/.naomi/configs/profile.yml ] ;
 then
     # Assume this is a fresh install, setup the system
+    tput reset
+    echo
     echo "Would you like to install Naobian on this machine?"
     echo -n "Choice [Y/N]: "
     read -N1 -s key
@@ -76,5 +78,5 @@ sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_setup.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_options.json
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/naomi-purge
 sudo chmod +x naomi-purge
-sleep 5
+sleep 2
 sudo rm ~/update.sh
