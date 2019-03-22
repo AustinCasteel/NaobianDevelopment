@@ -71,7 +71,7 @@ sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_setup.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_test.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/auto_run.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/version
-sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/ipdate.sh
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/update.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_setup.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_options.json
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/naomi-purge
