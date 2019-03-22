@@ -34,16 +34,16 @@ then
     echo "###################################################"
     echo -e "\e[0m"
     echo
-    echo -e "\e[1;36m [ \e[1;33m ? \e[1;36m ] Would you like to install Naobian on this machine? \e[0m"
+    echo -e "\e[1;36m[\e[1;33m?\e[1;36m] Would you like to install Naobian on this machine? \e[0m"
     echo
-    echo -n -e "\e[1;36m Choice [ \e[1;35m Y \e[1;36m / \e[1;35m N \e[1;36m ]: \e[0m"
+    echo -n -e "\e[1;36mChoice [\e[1;35mY\e[1;36m/\e[1;35mN\e[1;36m]: \e[0m"
     read -N1 -s key
     case $key in
       [Yy])
         ;;
 
       *)
-        echo "Aborting install."
+        echo "\e[1;31mAborting install."
         exit
         ;;
     esac
