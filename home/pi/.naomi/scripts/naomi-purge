@@ -1,0 +1,54 @@
+#!/bin/bash
+
+if [ "$0" = "$BASH_SOURCE" ]
+then
+   echo "To completely wipe the system, invoke using 'source .naomi/scripts/naomi-purge'"
+   exit 1
+fi
+
+echo "This will completely reset your Naomi install.  Are you sure you want to do this?"
+echo -n "Choice [Y/N]:"
+
+read -N1 -s key
+case $key in
+   [Yy])
+      echo $key
+      echo "Starting wipe in 2 seconds..."
+      sleep 2
+      echo "Wiping system..."
+
+      # Remove all Naomi user settings
+      rm -Rf ~/.naomi/configs
+
+      # Wipe network settings
+      if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
+      then
+         sudo rm /etc/wpa_supplicant/wpa_supplicant.conf
+      fi
+      echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
+      echo "update_config=1" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
+      echo "country=US" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
+
+      # wipe ssh keys. A new one will be regenerated
+      # in the auto_run.sh script on first boot.
+      sudo rm /etc/ssh/ssh_host_*
+
+      # Reset to run setup next boot
+      touch ~/.naomi/scripts/first_run
+
+      # Reset bash history
+      history -c
+      history -w
+
+      # Done
+      echo "Wipe is complete.  Shutting down in 5 seconds."
+      sleep 5
+      sudo shutdown now
+      ;;
+
+   *)
+      echo $key
+      echo ""
+      echo "Cancelled"
+      ;;
+esac
