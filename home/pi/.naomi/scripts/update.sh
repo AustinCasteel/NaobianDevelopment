@@ -1,19 +1,5 @@
 #!/bin/bash
 
-#       Alert                     [!]
-#       Question                  [?]
-
-#       Instruction Text          \e[1;34m
-#       Question Text             \e[1;36m
-#       Alert Text                \e[1;31m
-#       Choice Text               \e[1;36m
-#       Choice Options            \e[1;35m
-#       []                        \e[1;36m
-#       ?                         \e[1;33m
-#       !                         \e[1;34m
-#       reset                     \e[0m
-
-
 ##########################################################################
 # update.sh
 ##########################################################################
