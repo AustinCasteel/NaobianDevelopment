@@ -58,7 +58,7 @@ then
     #bash ~/.naomi/scripts/dev_setup.sh -y 2>&1 | tee ~/.naomi/build.log
     echo "Build complete.  Press any key to review the output before it is deleted."
     read -N1 -s key
-    nano ~/.naomi/build.log
+    #nano ~/.naomi/build.log
 fi
 
 # update software
