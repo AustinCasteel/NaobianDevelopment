@@ -55,7 +55,7 @@ then
     echo
     echo "Beginning the Naobian build process.  This will"
     echo "take a bit. Results will be in the ~/.naomi/build.log"
-    bash ~/.naomi/scripts/dev_setup.sh -y 2>&1 | tee ~/.naomi/build.log
+    #bash ~/.naomi/scripts/dev_setup.sh -y 2>&1 | tee ~/.naomi/build.log
     echo "Build complete.  Press any key to review the output before it is deleted."
     read -N1 -s key
     nano ~/.naomi/build.log
