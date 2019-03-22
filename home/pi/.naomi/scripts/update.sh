@@ -1,5 +1,19 @@
 #!/bin/bash
 
+#       Alert                     [!]
+#       Question                  [?]
+
+#       Instruction Text          \e[1;34m
+#       Question Text             \e[1;36m
+#       Alert Text                \e[1;31m
+#       Choice Text               \e[1;36m
+#       Choice Options            \e[1;35m
+#       []                        \e[1;36m
+#       ?                         \e[1;33m
+#       !                         \e[1;34m
+#       reset                     \e[0m
+
+
 ##########################################################################
 # update.sh
 ##########################################################################
@@ -20,9 +34,9 @@ then
     echo "###################################################"
     echo -e "\e[0m"
     echo
-    echo "Would you like to install Naobian on this machine?"
+    echo -e "\e[1;36m [ \e[1;33m ? \e[1;36m ] Would you like to install Naobian on this machine? \e[0m"
     echo
-    echo -n "Choice [Y/N]: "
+    echo -n -e "\e[1;36m Choice [ \e[1;35m Y \e[1;36m / \e[1;35m N \e[1;36m ]: \e[0m"
     read -N1 -s key
     case $key in
       [Yy])
