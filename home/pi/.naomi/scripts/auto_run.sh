@@ -21,6 +21,7 @@ function network_setup() {
     while ! ping -q -c 1 -W 1 1.1.1.1 >/dev/null 2>&1 ; do
         if [ $show_prompt = 1 ]
         then
+            echo -e "\e[1;36m"
             echo "Network connection not found, press a key to setup via keyboard"
             echo "or plug in a network cable:"
             echo "  1) Basic wifi with SSID and password"
@@ -28,7 +29,7 @@ function network_setup() {
             echo "  3) Edit wpa_supplicant.conf directly"
             echo "  4) Force reboot"
             echo "  5) Skip network setup for now"
-            echo -n "Choice [1-6]: "
+            echo -n -e "\e[1;36mChoice [\e[1;35m1\e[1;36m-\e[1;35m6\e[1;36m]: \e[0m"
             show_prompt=0
         fi
 
@@ -37,12 +38,12 @@ function network_setup() {
         case $pressed in
          1)
             echo
-            echo -n "Enter a network SSID: "
+            echo -n -e "\e[1;36mEnter a network SSID: \e[0m"
             read user_ssid
-            echo -n "Enter the password: "
+            echo -n -e "\e[1;36mEnter the password: \e[0m"
             read -s user_pwd
             echo
-            echo -n "Enter the password again: "
+            echo -n -e "\e[1;36mEnter the password again: \e[0m"
             read -s user_confirm
             echo
 
@@ -60,7 +61,7 @@ function network_setup() {
             ;;
          2)
             echo
-            echo -n "Enter a network SSID: "
+            echo -n -e "\e[1;36mEnter a network SSID: \e[0m"
             read user_ssid
 
             if [ ! "$user_ssid" = "" ]
@@ -94,13 +95,13 @@ function network_setup() {
         then
             if [[ $reset_wlan0 -eq 5 ]]
             then
-                echo "Reconfiguring WLAN0..."
+                echo -e "\e[1;32mReconfiguring WLAN0...\e[0m"
                 wpa_cli -i wlan0 reconfigure
                 show_prompt=1
                 sleep 3
             elif [[ $reset_wlan0 -eq 1 ]]
             then
-                echo "Failed to connect to network."
+                echo -e "\e[1;31mFailed to connect to network."
                 show_prompt=1
             else
                 # decrement the counter
@@ -116,7 +117,7 @@ function network_setup() {
     then
         # Auto-detected
         echo
-        echo "Network connection detected!"
+        echo -e "\e[1;32mNetwork connection detected!\e[0m"
         should_reboot=0
     fi
 
@@ -129,7 +130,7 @@ function setup_wizard() {
     network_setup
     if [[ $? -eq 1 ]]
     then
-        echo "Rebooting..."
+        echo -e "\e[1;32mRebooting...\e[0m"
         sudo reboot
     fi
 
@@ -139,7 +140,7 @@ function setup_wizard() {
         sudo apt-get install pulseaudio -y
     fi
 
-    echo
+    echo -e "\e[1;36m"
     echo "========================================================================="
     echo "HARDWARE SETUP"
     echo "How do you want Naomi to output audio:"
@@ -147,33 +148,33 @@ function setup_wizard() {
     echo "  2) HDMI audio (e.g. a TV or monitor with built-in speakers)"
     echo "  3) USB audio (e.g. a USB soundcard or USB mic/speaker combo)"
     echo "  4) Google AIY Voice HAT and microphone board (Voice Kit v1)"
-    echo -n "Choice [1-4]: "
+    echo -n -e "\e[1;36mChoice [\e[1;35m1\e[1;36m-\e[1;35m4\e[1;36m]: \e[0m"
     while true; do
         read -N1 -s key
         case $key in
          1)
-            echo "$key - Analog audio"
+            echo -e "\e[1;32m$key - Analog audio"
             # audio out the analog speaker/headphone jack
             sudo amixer cset numid=3 "1" > /dev/null
             echo 'sudo amixer cset numid=3 "1" > /dev/null' >> ~/.naomi/scripts/audio_setup.sh
             break
             ;;
          2)
-            echo "$key - HDMI audio"
+            echo -e "\e[1;32m$key - HDMI audio"
             # audio out the HDMI port (e.g. TV speakers)
             sudo amixer cset numid=3 "2" > /dev/null
             echo 'sudo amixer cset numid=3 "2"  > /dev/null' >> ~/.naomi/scripts/audio_setup.sh
             break
             ;;
          3)
-            echo "$key - USB audio"
+            echo -e "\e[1;32m$key - USB audio"
             # audio out to the USB soundcard
             sudo amixer cset numid=3 "0" > /dev/null
             echo 'sudo amixer cset numid=3 "0"  > /dev/null' >> ~/.naomi/scripts/audio_setup.sh
             break
             ;;
          4)
-            echo "$key - Google AIY Voice HAT and microphone board (Voice Kit v1)"
+            echo -e "\e[1;32m$key - Google AIY Voice HAT and microphone board (Voice Kit v1)"
             # Get AIY drivers
             echo "deb https://dl.google.com/aiyprojects/deb stable main" | sudo tee /etc/apt/sources.list.d/aiyprojects.list
             wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -205,7 +206,7 @@ function setup_wizard() {
             # rebuild venv
             ~/.naomi/configs/dev_setup
 
-            echo "Reboot is needed !"
+            echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Reboot is needed!\e[0m"
             break
             ;;
 
@@ -213,14 +214,14 @@ function setup_wizard() {
     done
 
     lvl=7
-    echo
+    echo -e "\e[1;36m"
     echo "Let's test and adjust the volume:"
     echo "  1-9) Set volume level (1-quietest, 9=loudest)"
     echo "  T)est"
     echo "  R)eboot (needed if you just installed Google Voice Hat or plugged in a USB speaker)"
     echo "  D)one!"
     while true; do
-        echo -n -e "\rLevel [1-9/T/D/R]: ${lvl}          \b\b\b\b\b\b\b\b\b\b"
+        echo -n -e "\r\e[1;36mLevel [\e[1;35m1\e[1;36m-\e[1;35m9\e[1;36m/\e[1;35mT\e[1;36m/\e[1;35mD\e[1;36m/\e[1;35mR\e[1;36m]: \e[0m${lvl}          \b\b\b\b\b\b\b\b\b\b"
         read -N1 -s key
         case $key in
          [1-9])
@@ -231,7 +232,7 @@ function setup_wizard() {
             speak "Test"
             ;;
          [Rr])
-            echo "Rebooting..."
+            echo -e "\e[1;32mRebooting..."
             sudo reboot
             ;;
          [Tt])
@@ -240,18 +241,19 @@ function setup_wizard() {
             speak "Test"
             ;;
          [Dd])
-            echo " - Saving"
+            echo -e "\e[1;32mSaving..."
             break
             ;;
       esac
     done
     echo "amixer set PCM "$lvl"9%" >> ~/.naomi/scripts/audio_setup.sh
 
-    echo
+    echo -e "\e[1;36m"
     echo "The final step is Microphone configuration:"
     echo "As a voice assistant, Naomi needs to access a microphone to operate."
 
     while true; do
+        echo -e "\e[1;36m"
         echo "Please ensure your microphone is connected and select from the following"
         echo "list of microphones:"
         echo "  1) PlayStation Eye (USB)"
@@ -259,28 +261,28 @@ function setup_wizard() {
         echo "  3) Google AIY Voice HAT and microphone board (Voice Kit v1)"
         echo "  4) Matrix Voice HAT."
         echo "  5) Other (might work... might not -- good luck!)"
-        echo -n "Choice [1-5]: "
+        echo -n -e "\e[1;36mChoice [\e[1;35m1\e[1;36m-\e[1;35m5\e[1;36m]: \e[0m"
         echo
         while true; do
             read -N1 -s key
             case $key in
              1)
-                echo "$key - PS Eye"
+                echo -e "\e[1;32m$key - PS Eye"
                 # nothing to do, this is the default
                 break
                 ;;
              2)
-                echo "$key - Blue Snoball"
+                echo -e "\e[1;32m$key - Blue Snoball"
                 # nothing to do, this is the default
                 break
                 ;;
              3)
-                echo "$key - Google AIY Voice Hat"
+                echo -e "\e[1;32m$key - Google AIY Voice Hat"
                 break
                 ;;
              4)
-                echo "$key - Matrix Voice Hat"
-                echo "The setup script for Matrix Voice Hat will run at the end of"
+                echo -e "\e[1;32m$key - Matrix Voice Hat"
+                echo -e "\e[1;36mThe setup script for Matrix Voice Hat will run at the end of"
                 echo "The setup wizard. Press any key to continue..."
                 read -N1 -s anykey
                 touch setup_matrix
@@ -289,8 +291,8 @@ function setup_wizard() {
                 break
                 ;;
              5)
-                echo "$key - Other"
-                echo "Other microphone _might_ work, but there are no guarantees."
+                echo -e "\e[1;32m$key - Other"
+                echo -e "\e[1;36mOther microphone _might_ work, but there are no guarantees."
                 echo "We'll run the tests, but you are on your own.  If you have"
                 echo "issues, the most likely cause is an incompatible microphone."
                 echo "The PS Eye is cheap -- save yourself hassle and just buy one!"
@@ -300,7 +302,7 @@ function setup_wizard() {
         done
 
         if [ ! $skip_mic_test ]; then
-            echo
+            echo -e "\e[1;36m"
             echo "Testing microphone..."
             echo "In a few seconds you will see some initialization messages, then a prompt"
             echo "to speak.  Say something like 'testing 1 2 3 4 5 6 7 8 9 10'.  After"
@@ -314,27 +316,28 @@ function setup_wizard() {
             ~/.naomi/scripts/audio_test.sh
 
             retry_mic=0
-            echo
-            echo "Did you hear the yourself in the audio?"
+            echo -e "\e[1;36m"
+            echo -e "\e[1;36m[\e[1;33m?\e[1;36m] Did you hear the yourself in the audio? \e[0m"
+            echo -e "\e[1;36m"
             echo "  1) Yes!"
             echo "  2) No, let's repeat the test."
             echo "  3) No :(   Let's move on and I'll mess with the microphone later."
-            echo -n "Choice [1-3]: "
+            echo -n -e "\e[1;36mChoice [\e[1;35m1\e[1;36m-\e[1;35m3\e[1;36m]: \e[0m"
             while true; do
                 read -N1 -s key
                 case $key in
                 [1])
-                    echo "$key - Yes, good to go"
+                    echo -e "\e[1;32m$key - Yes, good to go"
                     break
                     ;;
                 [2])
-                    echo "$key - No, trying again"
+                    echo -e "\e[1;32m$key - No, trying again"
                     echo
                     retry_mic=1
                     break
                     ;;
                 [3])
-                    echo "$key - No, I give up and will use command line only (for now)!"
+                    echo -e "\e[1;32m$key - No, I give up and will use command line only (for now)!"
                     break
                     ;;
                 esac
@@ -349,18 +352,20 @@ function setup_wizard() {
         fi
     done
 
+    echo -e "\e[1;36m"
     echo "========================================================================="
     echo "NAOMI SETUP:"
     echo "Naomi is continuously updated.  For most users it is recommended that"
     echo "you run on the 'master' branch -- which always holds stable builds."
+    echo -e "\e[1;36m"
     echo "  1) Use the recommendations ('master')"
     echo "  2) I'm a core developer, put me on 'dev'"
-    echo -n "Choice [1-2]: "
+    echo -n -e "\e[1;36mChoice [\e[1;35m1\e[1;36m-\e[1;35m2\e[1;36m]: \e[0m"
     while true; do
         read -N1 -s key
         case $key in
          1)
-            echo "$key - Easy street, 'master'"
+            echo -e "\e[1;32m$key - Easy street, 'master'"
             echo '{"use_branch":"master", "auto_update": false}' > ~/.naomi/configs/.dev_options.json
             cd ~/Naomi
             git checkout master
@@ -368,7 +373,7 @@ function setup_wizard() {
             break
             ;;
          2)
-            echo "$key - I know what I'm doing and am a responsible human."
+            echo -e "\e[1;32m$key - I know what I'm doing and am a responsible human."
             echo '{"use_branch":"dev", "auto_update": false}' > ~/.naomi/configs/.dev_options.json
             cd ~/Naomi
             git checkout dev
@@ -378,7 +383,7 @@ function setup_wizard() {
         esac
     done
 
-
+    echo -e "\e[1;36m"
     echo "========================================================================="
     echo "SECURITY SETUP:"
     echo "Let's examine a few security settings."
@@ -388,52 +393,53 @@ function setup_wizard() {
     echo "pi to have full access to the system.  This can make some development"
     echo "tasks easy, but is less secure.  Would you like to remain with this default"
     echo "setup or would you lke to enable standard 'sudo' password behavior?"
+    echo -e "\e[1;36m"
     echo "  1) Stick with normal Raspian configuration, no password for 'sudo'"
     echo "  2) Require a password for 'sudo' actions."
-    echo -n "Choice [1-2]: "
+    echo -n -e "\e[1;36mChoice [\e[1;35m1\e[1;36m-\e[1;35m2\e[1;36m]: \e[0m"
     require_sudo=0
     while true; do
         read -N1 -s key
         case $key in
          [1])
-            echo "$key - No password"
-            # nothing to do, this is the default
+            echo -e "\e[1;32m$key - No password"
             require_sudo=0
             break
             ;;
          [2])
-            echo "$key - Enabling password protection for 'sudo'"
+            echo -e "\e[1;32m$key - Enabling password protection for 'sudo'"
             require_sudo=1
             break
             ;;
         esac
     done
 
-
-    echo "Unlike standard Raspbian which has a user 'pi' with a password 'raspberry',"
+    echo -e "\e[1;36m"
+    echo -e "Unlike standard Raspbian which has a user \e[1;33m'pi' \e[1;36mwith a password \e[1;33m'raspberry',\e[1;36m"
     echo "the Naobian image uses the following as default username and password:"
-    echo "  Default user:      pi"
-    echo "  Default password:  Naobian"
-    echo "As a network connected device, having a unique password significantly"
+    echo -e "\e[1;36m  Default user:      \e[1;92mpi"
+    echo -e "\e[1;36m  Default password:  \e[1;92mNaobian"
+    echo -e "\e[1;36mAs a network connected device, having a unique password significantly"
     echo "enhances your security and thwarts the majority of hacking attempts."
     echo "We recommend setting a unique password for any device, especially one"
     echo "that is exposed directly to the internet."
     echo " "
-    echo "Would you like to enter a new password?"
+    echo -e "\e[1;36m[\e[1;33m?\e[1;36m] Would you like to enter a new password? \e[0m"
+    echo -e "\e[1;36m"
     echo "  Y)es, prompt me for a new password"
     echo "  N)o, stick with the default password of 'Naobian'"
-    echo -n "Choice [Y,N]:"
+    echo -n -e "\e[1;36mChoice [\e[1;35mY\e[1;36m/\e[1;35mN\e[1;36m]: \e[0m"
     while true; do
         read -N1 -s key
         case $key in
         [Yy])
-            echo "$key - changing password"
+            echo -e "\e[1;32m$key - changing password"
             user_pwd=0
             user_confirm=1
-            echo -n "Enter your new password (characters WILL NOT appear): "
+            echo -n -e "\e[1;36mEnter your new password (characters WILL NOT appear): \e[0m"
             read -s user_pwd
             echo
-            echo -n "Enter your new password again: "
+            echo -n -e "\e[1;36mEnter your new password again: \e[0m"
             read -s user_confirm
             echo
             if [ "$user_pwd" = "$user_confirm" ]
@@ -442,11 +448,11 @@ function setup_wizard() {
                 echo "pi:$user_pwd" | sudo chpasswd
                 break
             else
-                echo "Passwords didn't match."
+                echo -e "\e[1;31mPasswords didn't match."
             fi
             ;;
         [Nn])
-           echo "$key - Using password 'Naobian'"
+           echo -e "\e[1;32m$key - Using password 'Naobian'"
            break
            ;;
         esac
@@ -458,34 +464,30 @@ function setup_wizard() {
     fi
 
     if [ ! $skip_last_prompt ]; then
-        echo
+        echo -e "\e[1;36m"
         echo "========================================================================="
         echo
         echo "That's all, setup is complete!  Now we'll pull down the latest software"
         echo "updates and start Naomi."
         echo
-        echo "To rerun this setup, type 'naobian-setup-wizard' and reboot."
+        echo -e "To rerun this setup, type \e[1;35m'naobian-setup-wizard' \e[1;36mand reboot."
         echo
-        echo "Press any key to launch Naomi..."
+        echo -e "\e[1;36mPress any key to launch Naomi..."
         read -N1 -s anykey
     fi
 }
 
-######################
-
-# this will regenerate new ssh keys on boot
-# if keys don't exist. This is needed because
-# ./bin/naomi-purge will delete old keys for
-# security measures
 if ! ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
-    echo "Regenerating ssh host keys"
+    echo -e "\e[1;32mRegenerating SSH Host Keys...\e[0m"
     sudo dpkg-reconfigure openssh-server
     sudo systemctl restart ssh
-    echo "New ssh host keys were created. this requires a reboot"
+    echo
+    echo -e "\e[1;36m[\e[1;34m!\e[1;36m] New ssh host keys were created, rebooting in 3 seconds\e[0m"
+    sleep 3
     sudo reboot
 fi
 
-echo -e "\e[32m"
+echo -e "\e[33m"
 echo "      ___           ___           ___           ___                  "
 echo "     /\__\         /\  \         /\  \         /\__\          ___    "
 echo "    /::|  |       /::\  \       /::\  \       /::|  |        /\  \   "
@@ -497,6 +499,7 @@ echo "     |:/:/  /       \::/  /   \:\  /:/  /        /:/  /  \::/__/     "
 echo "     |::/  /        /:/  /     \:\/:/  /        /:/  /    \:\__\     "
 echo "     /:/  /        /:/  /       \::/  /        /:/  /      \/__/     "
 echo "     \/__/         \/__/         \/__/         \/__/                 "
+echo -e "\e[94m"
 echo "                _   _             _     _                            "
 echo "               | \ | |           | |   (_)                           "
 echo "               |  \| | __ _  ___ | |__  _  __ _ _ __                 "
@@ -509,21 +512,24 @@ alias naomi-setup-wizard="cd ~ && touch first_run && source ~/.naomi/scripts/aut
 
 if [ -f ~/first_run ]
 then
+    echo -e "\e[1;36m"
+    echo "Welcome to Naobian. This image is designed to make getting started with"
+    echo "Naomi quick and easy. Would you like help setting up your system?"
     echo
-    echo "Welcome to Naobian.  This image is designed to make getting started with"
-    echo "Naomi quick and easy.  Would you like help setting up your system?"
     echo "  Y)es, I'd like the guided setup."
     echo "  N)ope, just get me a command line and get out of my way!"
-    echo -n "Choice [Y/N]: "
+    echo
+    echo -n -e "\e[1;36mChoice [\e[1;35mY\e[1;36m/\e[1;35mN\e[1;36m]: \e[0m"
     while true; do
         read -N1 -s key
         case $key in
          [Nn])
             echo $key
             echo
-            echo "Alright, have fun!"
-            echo "NOTE: If you decide to use the wizard later, just type 'naomi-setup-wizard'"
-            echo "      and reboot."
+            echo -e "\e[1;92m]Alright, have fun!"
+            echo
+            echo -e "\e[1;35mNOTE: \e[1;36m]If you decide to use the wizard later, just type \e[1;35m'naomi-setup-wizard'\e[1;36m]"
+            echo -e "      and reboot.\e[0m]"
             break
             ;;
          [Yy])
@@ -544,28 +550,28 @@ if [ -f setup_matrix ]
 then
     if [ ! -f matrix_setup_state.txt ]
     then
-        echo ""
+        echo -e "\e[1;36m"
         echo "========================================================================="
-        echo "Setting up Matrix Voice Hat. This will install the matrixio-kernel-modules and pulseaudio"
-        echo "This process is automatic, but requires rebooting three times. Please be patient"
-        echo "Press any key to continue..."
+        echo -e "Setting up Matrix Voice Hat. This will install the \e[1;35mmatrixio-kernel-modules \e[1;36mand \e[1;35mpulseaudio"
+        echo -e "\e[1;36mThis process is automatic, but requires rebooting three times. Please be patient"
+        sleep 2
+        echo -e "\e[1;36mPress any key to continue..."
         read -N1 -s anykey
     else
-        echo "Press any key to continue setting up Matrix Voice HAT"
+        echo -e "\e[1;36mPress any key to continue setting up Matrix Voice HAT"
         read -N1 -s anykey
     fi
 
     if [ ! -f matrix_setup_state.txt ]
     then
-        echo "Adding Matrix repo and installing packages..."
-        # add repo
+        echo -e "\e[1;32mAdding Matrix repo and installing packages...\e[0m"
         curl https://apt.matrix.one/doc/apt-key.gpg | sudo apt-key add -
         echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/matrixlabs.list
         sudo apt-get update -y
         sudo apt-get upgrade -y
 
         echo "stage-1" > matrix_setup_state.txt
-        echo "Rebooting to apply kernel updates, the installation will resume afterwards"
+        echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Rebooting to apply kernel updates, the installation will resume afterwards\e[0m"
         read -p "Press enter to continue reboot"
         sudo reboot
     else
@@ -574,13 +580,15 @@ then
 
     if [ $matrix_setup_state == "stage-1" ]
     then
-        echo "Installing matrixio-kernel-modules..."
+        echo ""
+        echo -e "\e[1;32mInstalling matrixio-kernel-modules...\e[0m"
         sudo apt install matrixio-kernel-modules -y
 
-        echo "installing pulseaudio"
+        echo ""
+        echo -e "\e[1;32mInstalling pulseaudio\e[0m"
         sudo apt-get install pulseaudio -y
         
-        echo "Rebooting to apply audio subsystem changes, the installation will continue afterwards."
+        echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Rebooting to apply audio subsystem changes, the installation will continue afterwards.\e[0m"
         read -p "Press enter to continue reboot"
         echo "stage-2" > matrix_setup_state.txt
         sudo reboot
@@ -588,7 +596,7 @@ then
 
     if [ $matrix_setup_state == "stage-2" ]
     then
-        echo "Setting Matrix as standard microphone..."
+        echo -e "\e[1;36mSetting Matrix as standard microphone..."
         echo "========================================================================="
         pactl list sources short
         sleep 5
@@ -620,12 +628,6 @@ fi
 
 if [ "$SSH_CLIENT" == "" ] && [ "$(/usr/bin/tty)" = "/dev/tty1" ];
 then
-    # running at the local console (e.g. plugged into the HDMI output)
-
-    # Make sure the audio is being output reasonably.  This can be set
-    # to match user preference in audio_setup.sh.  DON'T EDIT HERE,
-    # the script will likely be overwritten during updates.
-    #
     # Default to analog audio jack at 75% volume
     amixer cset numid=3 "1" > /dev/null
     amixer set PCM 75% > /dev/null
@@ -641,14 +643,15 @@ then
     network_setup
     if [[ $? -eq 1 ]]
     then
-        echo "Rebooting..."
+        echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Restarting in 3 seconds\e[0m"
+        sleep 3
         sudo reboot
     fi
 
     # Look for internet connection.
     if ping -q -c 1 -W 1 1.1.1.1 >/dev/null 2>&1
     then
-        echo "**** Checking for updates to Naobian environment"
+        echo -e "\e[1;32mChecking for updates to Naobian environment...\e[0m"
         cd /tmp
         wget -N -q https://raw.githubusercontent.com/AustinCasteel/NaobianDevelopment/master/home/pi/.naomi/scripts/version >/dev/null
         if [ $? -eq 0 ]
@@ -660,10 +663,7 @@ then
             cmp /tmp/version ~/.naomi/scripts/version
             if  [ $? -eq 1 ]
             then
-                # Versions don't match...update needed
-                echo "**** Update found, downloadling new Naobian scripts!"
-                speak "Updating Naobian, please hold on."
-
+                echo -e "\e[1;32mUpdate found, downloadling new Naobian scripts!\e[0m"
 
                 wget -N -q https://raw.githubusercontent.com/AustinCasteel/NaobianDevelopment/master/home/pi/.naomi/scripts/update.sh
                 if [ $? -eq 0 ]
@@ -671,17 +671,17 @@ then
                     source .naomi/scripts/update.sh
                     cp /tmp/version ~/.naomi/scripts/version
 
-                    # restart
-                    echo "Restarting..."
-                    speak "Update complete, restarting."
+                    echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Restarting in 3 seconds\e[0m"
+                    sleep 3
                     sudo reboot now
                 else
-                    echo "ERROR: Failed to download update script."
+                    echo -e "\e[1;36m[\e[1;31m!\e[1;36m] \e[1;31mERROR: \e[1;36mFailed to download update script.\e[0m"
                 fi
             fi
         fi
 
         echo -n "Checking for naomi updates..."
+        echo -e "\e[1;32mChecking for Naomi Updates...\e[0m"
         cd ~/Naomi
         git pull
         cd ~

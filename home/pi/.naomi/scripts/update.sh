@@ -82,7 +82,7 @@ echo -e "\e[1;32mUpdating Naobian Scripts...\e[0m"
 cd ~
 wget -N $REPO_PATH/home/pi/.bashrc
 cd ~/.naomi/configs/
-sudo wget -N $REPO_PATH/home/pi/.naomi/configs/AIY-asound.conf
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/AIY-asound.conf
 cd ~/.naomi/scripts/
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_setup.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_test.sh
