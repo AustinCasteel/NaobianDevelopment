@@ -531,6 +531,7 @@ then
             echo -e "\e[1;35mNOTE: \e[1;36mIf you decide to use the wizard later, just type \e[1;35m'naomi-setup-wizard'\e[1;36m"
             echo -e "      and reboot.\e[0m"
             break
+            break
             ;;
          [Yy])
             echo $key
