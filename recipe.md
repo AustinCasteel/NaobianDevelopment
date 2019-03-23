@@ -7,7 +7,6 @@ NOTE: At startup Naobian will automatically update itself to the latest version 
 
 ### Start with the official Raspbian Image
 * Download and burn [Raspbian Stretch Lite](https://downloads.raspberrypi.org/raspbian_lite_latest).
-  <br>_Last used 2018-06-27 version_
 * Install into Raspberry Pi and boot
 
 ### General configuration
