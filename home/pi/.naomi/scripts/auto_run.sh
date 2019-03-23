@@ -526,10 +526,10 @@ then
          [Nn])
             echo $key
             echo
-            echo -e "\e[1;92m]Alright, have fun!"
+            echo -e "\e[1;92mAlright, have fun!"
             echo
-            echo -e "\e[1;35mNOTE: \e[1;36m]If you decide to use the wizard later, just type \e[1;35m'naomi-setup-wizard'\e[1;36m]"
-            echo -e "      and reboot.\e[0m]"
+            echo -e "\e[1;35mNOTE: \e[1;36mIf you decide to use the wizard later, just type \e[1;35m'naomi-setup-wizard'\e[1;36m"
+            echo -e "      and reboot.\e[0m"
             break
             ;;
          [Yy])
