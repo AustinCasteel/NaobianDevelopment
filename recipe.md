@@ -60,6 +60,9 @@ NOTE: At startup Naobian will automatically update itself to the latest version 
 
 **The update.sh script will perform all necessary steps to setup the img...**
 
+Naobian will reboot, prompting the autostart but erroring itself out.
+>Note: It is supposed to error out!
+
 ## Final steps
 * Run ```. ~/.naomi/scripts/naomi-purge```
 * Remove the SD card
