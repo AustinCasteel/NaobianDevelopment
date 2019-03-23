@@ -486,46 +486,24 @@ if ! ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
 fi
 
 echo -e "\e[32m"
-echo "           _____                    _____                   _______                   _____                    _____           "
-echo "          /\    \                  /\    \                 /::\    \                 /\    \                  /\    \          "
-echo "         /::\____\                /::\    \               /::::\    \               /::\____\                /::\    \         "
-echo "        /::::|   |               /::::\    \             /::::::\    \             /::::|   |                \:::\    \        "
-echo "       /:::::|   |              /::::::\    \           /::::::::\    \           /:::::|   |                 \:::\    \       "
-echo "      /::::::|   |             /:::/\:::\    \         /:::/~~\:::\    \         /::::::|   |                  \:::\    \      "
-echo "     /:::/|::|   |            /:::/__\:::\    \       /:::/    \:::\    \       /:::/|::|   |                   \:::\    \     "
-echo "    /:::/ |::|   |           /::::\   \:::\    \     /:::/    / \:::\    \     /:::/ |::|   |                   /::::\    \    "
-echo "   /:::/  |::|   | _____    /::::::\   \:::\    \   /:::/____/   \:::\____\   /:::/  |::|___|______    ____    /::::::\    \   "
-echo "  /:::/   |::|   |/\    \  /:::/\:::\   \:::\    \ |:::|    |     |:::|    | /:::/   |::::::::\    \  /\   \  /:::/\:::\    \  "
-echo " /:: /    |::|   /::\____\/:::/  \:::\   \:::\____\|:::|____|     |:::|    |/:::/    |:::::::::\____\/::\   \/:::/  \:::\____\ "
-echo " \::/    /|::|  /:::/    /\::/    \:::\  /:::/    / \:::\    \   /:::/    / \::/    / ~~~~~/:::/    /\:::\  /:::/    \::/    / "
-echo "  \/____/ |::| /:::/    /  \/____/ \:::\/:::/    /   \:::\    \ /:::/    /   \/____/      /:::/    /  \:::\/:::/    / \/____/  "
-echo "          |::|/:::/    /            \::::::/    /     \:::\    /:::/    /                /:::/    /    \::::::/    /           "
-echo "          |::::::/    /              \::::/    /       \:::\__/:::/    /                /:::/    /      \::::/____/            "
-echo "          |:::::/    /               /:::/    /         \::::::::/    /                /:::/    /        \:::\    \            "
-echo "          |::::/    /               /:::/    /           \::::::/    /                /:::/    /          \:::\    \           "
-echo "          /:::/    /               /:::/    /             \::::/    /                /:::/    /            \:::\    \          "
-echo "         /:::/    /               /:::/    /               \::/____/                /:::/    /              \:::\____\         "
-echo "         \::/    /                \::/    /                 ~~                      \::/    /                \::/    /         "
-echo "          \/____/                  \/____/                                           \/____/                  \/____/          "
-echo "                                             _   _             _     _                                                         "
-echo "                                            | \ | |           | |   (_)                                                        "
-echo "                                            |  \| | __ _  ___ | |__  _  __ _ _ __                                              "
-echo "                                            | .   |/ _  |/ _ \| '_ \| |/ _  |  _ \                                             "
-echo "                                            | |\  | (_| | (_) | |_) | | (_| | | | |                                            "
-echo "                                            |_| \_|\__,_|\___/|_.__/|_|\__,_|_| |_|                                            "
+echo "      ___           ___           ___           ___                  "
+echo "     /\__\         /\  \         /\  \         /\__\          ___    "
+echo "    /::|  |       /::\  \       /::\  \       /::|  |        /\  \   "
+echo "   /:|:|  |      /:/\:\  \     /:/\:\  \     /:|:|  |        \:\  \  "
+echo "  /:/|:|  |__   /::\~\:\  \   /:/  \:\  \   /:/|:|__|__      /::\__\ "
+echo " /:/ |:| /\__\ /:/\:\ \:\__\ /:/__/ \:\__\ /:/ |::::\__\  __/:/\/__/ "
+echo " \/__|:|/:/  / \/__\:\/:/  / \:\  \ /:/  / \/__/~~/:/  / /\/:/  /    "
+echo "     |:/:/  /       \::/  /   \:\  /:/  /        /:/  /  \::/__/     "
+echo "     |::/  /        /:/  /     \:\/:/  /        /:/  /    \:\__\     "
+echo "     /:/  /        /:/  /       \::/  /        /:/  /      \/__/     "
+echo "     \/__/         \/__/         \/__/         \/__/                 "
+echo "                _   _             _     _                            "
+echo "               | \ | |           | |   (_)                           "
+echo "               |  \| | __ _  ___ | |__  _  __ _ _ __                 "
+echo "               | .   |/ _  |/ _ \| '_ \| |/ _  |  _ \                "
+echo "               | |\  | (_| | (_) | |_) | | (_| | | | |               "
+echo "               |_| \_|\__,_|\___/|_.__/|_|\__,_|_| |_|               "
 echo -e "\e[0m"
-
-# Read the current naomi version
-source Naomi/venv-activate.sh -q
-naomi_core_ver=$(python -c "import naomi.version; print('naomi: '+naomi.version.CORE_VERSION_STR)" && echo "steve" | grep -o "naomi:.*")
-naomi_core_branch=$(cd Naomi && git branch | grep -o "/* .*")
-
-echo "***********************************************************************"
-echo "** Naobian platform version:" $(<version)
-echo "**                       $naomi_core_ver ( ${naomi_core_branch/* /} )"
-echo "***********************************************************************"
-sleep 2  # give user a few moments to notice the version
-
 
 alias naomi-setup-wizard="cd ~ && touch first_run && source auto_run.sh"
 
@@ -709,24 +687,9 @@ then
         cd ~
     fi
 
-    # Launch Naomi Services ======================
-    source ~/Naomi/start-naomi.sh all &
+    # Launch Naomi
+    # source ~/Naomi/Naomi.py
 else
     # running in SSH session
     echo
 fi
-
-echo
-naomi-help
-
-echo
-echo "***********************************************************************"
-echo "In a few moments you will see the contents of the speech log.  Hit"
-echo "Ctrl+C to stop showing the log and return to the Linux command line."
-echo "Naomi will continue running in the background for voice interaction."
-echo
-
-source ~/Naomi/start-naomi.sh all &
-sleep 5  # for some reason this delay is needed for the mic to be detected
-"$HOME/Naomi/start-naomi.sh" cli
-
