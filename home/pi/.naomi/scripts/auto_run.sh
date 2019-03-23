@@ -505,7 +505,7 @@ echo "               | |\  | (_| | (_) | |_) | | (_| | | | |               "
 echo "               |_| \_|\__,_|\___/|_.__/|_|\__,_|_| |_|               "
 echo -e "\e[0m"
 
-alias naomi-setup-wizard="cd ~ && touch first_run && source auto_run.sh"
+alias naomi-setup-wizard="cd ~ && touch first_run && source ~/.naomi/scripts/auto_run.sh"
 
 if [ -f ~/first_run ]
 then

@@ -34,7 +34,7 @@ case $key in
       sudo rm /etc/ssh/ssh_host_*
 
       # Reset to run setup next boot
-      touch ~/.naomi/scripts/first_run
+      touch ~/first_run
 
       # Reset bash history
       history -c
