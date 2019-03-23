@@ -680,7 +680,6 @@ then
             fi
         fi
 
-        echo -n "Checking for naomi updates..."
         echo -e "\e[1;32mChecking for Naomi Updates...\e[0m"
         cd ~/Naomi
         git pull
