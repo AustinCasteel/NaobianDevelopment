@@ -22,7 +22,7 @@ case $key in
       # Remove all Naomi user settings
       echo
       echo -e "\e[1;32mRemoving Configs...\e[0m"
-      sudo rm -Rf ~/.naomi/configs
+      #sudo rm -Rf ~/.naomi/configs
 
       # Wipe network settings
       echo

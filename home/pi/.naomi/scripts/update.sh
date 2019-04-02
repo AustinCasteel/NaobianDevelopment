@@ -36,9 +36,9 @@ then
 
     # Create basic folder structures
     echo -e "\e[1;32mCreating File Structure...\e[0m"
-    sudo mkdir ~/.naomi/
-    sudo mkdir ~/.naomi/configs/
-    sudo mkdir ~/.naomi/scripts/
+    mkdir ~/.naomi/
+    mkdir ~/.naomi/configs/
+    mkdir ~/.naomi/scripts/
 
     # Get the Naobian profile file
     echo
@@ -63,17 +63,17 @@ then
     cd ~
     git clone https://github.com/NaomiProject/Naomi.git
     cd Naomi
-    git checkout master
+    git checkout naomi-dev
 
     echo -e "\e[1;36m"
     echo "Beginning the Naobian build process.  This will"
-    echo -e "take a bit. Results will be in the \e[1;35m~/.naomi/build.log"
-    #bash ~/.naomi/scripts/dev_setup.sh -y 2>&1 | tee ~/.naomi/build.log
+    echo -e "take around 45 minutes. Results will be in the \e[1;35m~/.naomi/build.log"
+    bash ~/.naomi/scripts/naobian_build.sh -y 2>&1 | tee ~/.naomi/build.log
     sleep 2
     echo
     echo -e "\e[1;36mBuild complete.  Press any key to review the output before it is deleted."
     read -N1 -s key
-    #nano ~/.naomi/build.log
+    nano ~/.naomi/build.log
 fi
 
 # update software
@@ -89,8 +89,8 @@ sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/audio_test.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/auto_run.sh
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/version
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/update.sh
-sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_setup.sh
-sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/dev_options.json
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/naobian_build.sh
+sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/naobian_options.json
 sudo wget -N $REPO_PATH/home/pi/.naomi/scripts/naomi-purge
 sudo chmod +x naomi-purge
 sleep 2

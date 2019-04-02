@@ -204,7 +204,7 @@ function setup_wizard() {
             sudo cp ~/.naomi/scripts/AIY-asound.conf ~/.naomi/configs/asound.conf
 
             # rebuild venv
-            ~/.naomi/configs/dev_setup
+            ~/.naomi/configs/naobian_setup
 
             echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Reboot is needed!\e[0m"
             break
@@ -366,7 +366,7 @@ function setup_wizard() {
         case $key in
          1)
             echo -e "\e[1;32m$key - Easy street, 'master'"
-            echo '{"use_branch":"master", "auto_update": false}' > ~/.naomi/configs/.dev_options.json
+            echo '{"use_branch":"master", "auto_update": false}' > ~/.naomi/configs/.naobian_options.json
             cd ~/Naomi
             git checkout master
             cd ..
@@ -374,7 +374,7 @@ function setup_wizard() {
             ;;
          2)
             echo -e "\e[1;32m$key - I know what I'm doing and am a responsible human."
-            echo '{"use_branch":"dev", "auto_update": false}' > ~/.naomi/configs/.dev_options.json
+            echo '{"use_branch":"dev", "auto_update": false}' > ~/.naomi/configs/.naobian_options.json
             cd ~/Naomi
             git checkout dev
             cd ..
@@ -615,7 +615,7 @@ then
 
         echo "========================================================================="
         echo "Updating the python virtual environment"
-        bash ~/.naomi/scripts/dev_setup.sh
+        bash ~/.naomi/scripts/naobian_setup.sh
 
         echo "stage-3" > matrix_setup_state.txt
         read -p "Your Matrix microphone is now setup! Press enter to perform the final reboot and start Naomi."
