@@ -22,7 +22,9 @@ case $key in
       # Remove all Naomi user settings
       echo
       echo -e "\e[1;32mRemoving Configs...\e[0m"
-      #sudo rm -Rf ~/.naomi/configs
+      #sudo rm -Rf ~/.naomi/configs                   # Should remove any configs set in img development so it is a clean slate for users
+                                                      # Issue is it would also remove the naobian default profile.yml.
+                                                      # So it is commented out for now...
 
       # Wipe network settings
       echo
