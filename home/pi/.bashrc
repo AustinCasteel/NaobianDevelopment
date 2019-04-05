@@ -114,6 +114,6 @@ fi
 
 
 ######################################################################
-# Initialize Naomi
+# Initialize Naomi to auto start on any terminal or ssh
 ######################################################################
-source ~/.naomi/scripts/auto_run.sh
+source ~/.naomi/scripts/auto-start.sh

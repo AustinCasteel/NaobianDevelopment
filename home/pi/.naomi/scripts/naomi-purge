@@ -1,5 +1,9 @@
 #!/bin/bash
-
+##########################################################################
+# naomi-purge
+# This script is executed during the creation or the Naobian Img.
+# Can be ran by user if needing to wipe naomi off the system
+##########################################################################
 if [ "$0" = "$BASH_SOURCE" ]
 then
    echo -e "\e[1;36m[\e[1;34m!\e[1;36m] To completely wipe the system, invoke using \e[1;35m'source .naomi/scripts/naomi-purge'"
@@ -19,14 +23,14 @@ case $key in
       sleep 2
       echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Wiping system...\e[0m"
 
-      # Remove all Naomi user settings
+      # Remove Naomi Configs
       echo
       echo -e "\e[1;32mRemoving Configs...\e[0m"
       #sudo rm -Rf ~/.naomi/configs                   # Should remove any configs set in img development so it is a clean slate for users
-                                                      # Issue is it would also remove the naobian default profile.yml.
+                                                      # Issue is it would also remove the naobian default profile.yml in its current state.
                                                       # So it is commented out for now...
 
-      # Wipe network settings
+      # Wipe Network Settings
       echo
       echo -e "\e[1;32mWiping Network Settings...\e[0m"
       if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]
@@ -37,18 +41,18 @@ case $key in
       echo "update_config=1" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
       echo "country=US" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
 
-      # wipe ssh keys. A new one will be regenerated
-      # in the auto_run.sh script on first boot.
+      # Wipe SSH keys. A new one will be regenerated
+      # in the auto-start.sh script on first boot.
       echo
       echo -e "\e[1;32mWiping SSH Keys...\e[0m"
       sudo rm /etc/ssh/ssh_host_*
 
-      # Reset to run setup next boot
+      # Reset First Run on next boot
       echo
       echo -e "\e[1;32mActivating First Run Condition...\e[0m"
       touch ~/first_run
 
-      # Reset bash history
+      # Reset Bash History
       echo
       echo -e "\e[1;32mClearing Bash History...\e[0m"
       history -c

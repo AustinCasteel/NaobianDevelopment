@@ -1,10 +1,9 @@
 #!/bin/bash
 ##########################################################################
-# audio_setup.sh
+# audio-setup.sh
+# You can use this script to execute custom audio actions on startup.
+# It gets called by auto-start.sh.
 ##########################################################################
-# You can use this script to execute custom actions on startup.  It gets
-# called by auto_run.sh.  This file will never be replaced by an update.
-
 
 # Uncomment one of lines to change output audio such as the HDMI port, e.g. the
 # connected TV's speakers.  By default audio is output by the headphone jack.
@@ -19,6 +18,6 @@
 # sudo amixer cset numid=3 "2"  # audio out the HDMI port (e.g. TV speakers)
 
 
-# Set the default volume level; 75 is the current default in auto_run.sh
+# Set the default volume level; 75 is the current default in auto-start.sh
 #
 # amixer set Master 75%

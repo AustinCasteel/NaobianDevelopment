@@ -1,9 +1,9 @@
 #!/bin/bash
 ##########################################################################
-# auto_run.sh
-##########################################################################
-# This script is executed by the .bashrc every time someone logs in to the
+# auto-start.sh
+# This script is executed by .bashrc every time someone logs in to the
 # system (including shelling in via SSH).
+##########################################################################
 
 export PATH="$HOME/bin:$HOME/Naomi/bin:$PATH"
 
@@ -156,21 +156,21 @@ function setup_wizard() {
             echo -e "\e[1;32m$key - Analog audio"
             # audio out the analog speaker/headphone jack
             sudo amixer cset numid=3 "1" > /dev/null
-            echo 'sudo amixer cset numid=3 "1" > /dev/null' >> ~/.naomi/scripts/audio_setup.sh
+            echo 'sudo amixer cset numid=3 "1" > /dev/null' >> ~/.naomi/scripts/audio-setup.sh
             break
             ;;
          2)
             echo -e "\e[1;32m$key - HDMI audio"
             # audio out the HDMI port (e.g. TV speakers)
             sudo amixer cset numid=3 "2" > /dev/null
-            echo 'sudo amixer cset numid=3 "2"  > /dev/null' >> ~/.naomi/scripts/audio_setup.sh
+            echo 'sudo amixer cset numid=3 "2"  > /dev/null' >> ~/.naomi/scripts/audio-setup.sh
             break
             ;;
          3)
             echo -e "\e[1;32m$key - USB audio"
             # audio out to the USB soundcard
             sudo amixer cset numid=3 "0" > /dev/null
-            echo 'sudo amixer cset numid=3 "0"  > /dev/null' >> ~/.naomi/scripts/audio_setup.sh
+            echo 'sudo amixer cset numid=3 "0"  > /dev/null' >> ~/.naomi/scripts/audio-setup.sh
             break
             ;;
          4)
@@ -204,7 +204,7 @@ function setup_wizard() {
             sudo cp ~/.naomi/scripts/AIY-asound.conf ~/.naomi/configs/asound.conf
 
             # rebuild venv
-            ~/.naomi/configs/naobian_setup
+            ~/.naomi/configs/naobian-setup
 
             echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Reboot is needed!\e[0m"
             break
@@ -226,10 +226,11 @@ function setup_wizard() {
         case $key in
          [1-9])
             lvl=$key
-            # Set volume between 19% and 99%.  Lazily not allowing 100% :)
+            # Set volume between 19% and 99%.
             amixer set Master "${lvl}9%" > /dev/null
             echo -e -n "\b$lvl PLAYING"
-            speak "Test"
+            aplay ~/Naomi/naomi/data/audio/beep_hi.wav
+            aplay ~/Naomi/naomi/data/audio/beep_lo.wav
             ;;
          [Rr])
             echo -e "\e[1;32mRebooting..."
@@ -238,7 +239,8 @@ function setup_wizard() {
          [Tt])
             amixer set Master '${lvl}9%' > /dev/null
             echo -e -n "\b$lvl PLAYING"
-            speak "Test"
+            aplay ~/Naomi/naomi/data/audio/beep_hi.wav
+            aplay ~/Naomi/naomi/data/audio/beep_lo.wav
             ;;
          [Dd])
             echo -e "\e[1;32mSaving..."
@@ -246,7 +248,7 @@ function setup_wizard() {
             ;;
       esac
     done
-    echo "amixer set PCM "$lvl"9%" >> ~/.naomi/scripts/audio_setup.sh
+    echo "amixer set PCM "$lvl"9%" >> ~/.naomi/scripts/audio-setup.sh
 
     echo -e "\e[1;36m"
     echo "The final step is Microphone configuration:"
@@ -257,7 +259,7 @@ function setup_wizard() {
         echo "Please ensure your microphone is connected and select from the following"
         echo "list of microphones:"
         echo "  1) PlayStation Eye (USB)"
-        echo "  2) Blue Snoball ICE (USB)"
+        echo "  2) Blue Snowball ICE (USB)"
         echo "  3) Google AIY Voice HAT and microphone board (Voice Kit v1)"
         echo "  4) Matrix Voice HAT."
         echo "  5) Other (might work... might not -- good luck!)"
@@ -304,20 +306,26 @@ function setup_wizard() {
         if [ ! $skip_mic_test ]; then
             echo -e "\e[1;36m"
             echo "Testing microphone..."
-            echo "In a few seconds you will see some initialization messages, then a prompt"
-            echo "to speak.  Say something like 'testing 1 2 3 4 5 6 7 8 9 10'.  After"
+            echo "In a few seconds you will see a prompt to start talking."
+            echo "Say something like 'testing 1 2 3 4 5 6 7 8 9 10'.  After"
             echo "10 seconds, the sound heard through the microphone will be played back."
             echo
             echo "Press any key to begin the test..."
             sleep 1
             read -N1 -s key
 
-            # Launch Naomi audio test
-            ~/.naomi/scripts/audio_test.sh
+            echo
+            echo -e "\e[1;32mAudio Recoding starts in 3 seconds...\e[0m"
+            sleep 3
+            arecord  -r16000 -fS16_LE -c1 -d10 audiotest.wav
+            echo
+            echo -e "\e[1;32mRecoding Playback starts in 3 seconds...\e[0m"
+            sleep 3
+            aplay audiotest.wav
 
             retry_mic=0
             echo -e "\e[1;36m"
-            echo -e "\e[1;36m[\e[1;33m?\e[1;36m] Did you hear the yourself in the audio? \e[0m"
+            echo -e "\e[1;36m[\e[1;33m?\e[1;36m] Did you hear yourself in the audio? \e[0m"
             echo -e "\e[1;36m"
             echo "  1) Yes!"
             echo "  2) No, let's repeat the test."
@@ -357,6 +365,7 @@ function setup_wizard() {
     echo "NAOMI SETUP:"
     echo "Naomi is continuously updated.  For most users it is recommended that"
     echo "you run on the 'master' branch -- which always holds stable builds."
+    echo "Note: 'dev' comes with automatic updates."
     echo -e "\e[1;36m"
     echo "  1) Use the recommendations ('master')"
     echo "  2) I'm a core developer, put me on 'dev'"
@@ -374,7 +383,7 @@ function setup_wizard() {
             ;;
          2)
             echo -e "\e[1;32m$key - I know what I'm doing and am a responsible human."
-            echo '{"use_branch":"dev", "auto_update": false}' > ~/.naomi/configs/.naobian_options.json
+            echo '{"use_branch":"dev", "auto_update": true}' > ~/.naomi/configs/.naobian_options.json
             cd ~/Naomi
             git checkout dev
             cd ..
@@ -467,7 +476,7 @@ function setup_wizard() {
         echo -e "\e[1;36m"
         echo "========================================================================="
         echo
-        echo "That's all, setup is complete!  Now we'll pull down the latest software"
+        echo "That's all, setup is complete!  Now we'll pull the latest software"
         echo "updates and start Naomi."
         echo
         echo -e "To rerun this setup, type \e[1;35m'naobian-setup-wizard' \e[1;36mand reboot."
@@ -508,7 +517,7 @@ echo "               | |\  | (_| | (_) | |_) | | (_| | | | |               "
 echo "               |_| \_|\__,_|\___/|_.__/|_|\__,_|_| |_|               "
 echo -e "\e[0m"
 
-alias naomi-setup-wizard="cd ~ && touch first_run && source ~/.naomi/scripts/auto_run.sh"
+alias naomi-setup-wizard="cd ~ && touch first_run && source ~/.naomi/scripts/auto_start.sh"
 
 if [ -f ~/first_run ]
 then
@@ -549,81 +558,8 @@ fi
 # Matrix Voice Hat Setup
 if [ -f setup_matrix ]
 then
-    if [ ! -f matrix_setup_state.txt ]
-    then
-        echo -e "\e[1;36m"
-        echo "========================================================================="
-        echo -e "Setting up Matrix Voice Hat. This will install the \e[1;35mmatrixio-kernel-modules \e[1;36mand \e[1;35mpulseaudio"
-        echo -e "\e[1;36mThis process is automatic, but requires rebooting three times. Please be patient"
-        sleep 2
-        echo -e "\e[1;36mPress any key to continue..."
-        read -N1 -s anykey
-    else
-        echo -e "\e[1;36mPress any key to continue setting up Matrix Voice HAT"
-        read -N1 -s anykey
-    fi
-
-    if [ ! -f matrix_setup_state.txt ]
-    then
-        echo -e "\e[1;32mAdding Matrix repo and installing packages...\e[0m"
-        curl https://apt.matrix.one/doc/apt-key.gpg | sudo apt-key add -
-        echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/matrixlabs.list
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-
-        echo "stage-1" > matrix_setup_state.txt
-        echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Rebooting to apply kernel updates, the installation will resume afterwards\e[0m"
-        read -p "Press enter to continue reboot"
-        sudo reboot
-    else
-        matrix_setup_state=$( cat matrix_setup_state.txt)
-    fi
-
-    if [ $matrix_setup_state == "stage-1" ]
-    then
-        echo ""
-        echo -e "\e[1;32mInstalling matrixio-kernel-modules...\e[0m"
-        sudo apt install matrixio-kernel-modules -y
-
-        echo ""
-        echo -e "\e[1;32mInstalling pulseaudio\e[0m"
-        sudo apt-get install pulseaudio -y
-        
-        echo -e "\e[1;36m[\e[1;34m!\e[1;36m] Rebooting to apply audio subsystem changes, the installation will continue afterwards.\e[0m"
-        read -p "Press enter to continue reboot"
-        echo "stage-2" > matrix_setup_state.txt
-        sudo reboot
-    fi
-
-    if [ $matrix_setup_state == "stage-2" ]
-    then
-        echo -e "\e[1;36mSetting Matrix as standard microphone..."
-        echo "========================================================================="
-        pactl list sources short
-        sleep 5
-        pulseaudio -k
-        pactl set-default-source 2
-        pulseaudio --start
-        amixer set Master 99%
-        echo "amixer set Master 99%" >> ~/.naomi/scripts/audio_setup.sh
-        sleep 2
-        amixer
-
-        naomi-mic-test
-        
-        read -p "You should have heard the recording playback. Press enter to continue"
-
-        echo "========================================================================="
-        echo "Updating the python virtual environment"
-        bash ~/.naomi/scripts/naobian_setup.sh
-
-        echo "stage-3" > matrix_setup_state.txt
-        read -p "Your Matrix microphone is now setup! Press enter to perform the final reboot and start Naomi."
-        sudo reboot
-    fi
-
-    rm ~/matrix_setup_state.txt
-    rm ~/setup_matrix
+    cd ~/.naomi/scripts
+    ./audio-setup-matrix.sh
 fi
 
 
@@ -634,9 +570,9 @@ then
     amixer set PCM 75% > /dev/null
 
     # Check for custom audio setup
-    if [ -f ~/.naomi/scripts/audio_setup.sh ]
+    if [ -f ~/.naomi/scripts/audio-setup.sh ]
     then
-        source ~/.naomi/scripts/audio_setup.sh
+        source ~/.naomi/scripts/audio-setup.sh
         cd ~
     fi
 

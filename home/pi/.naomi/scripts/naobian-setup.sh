@@ -1,10 +1,10 @@
 #!/bin/bash
 ##########################################################################
 # naobian-setup.sh
-##########################################################################
-# This script is executed by auto_run.sh during the img setup process
+# This script is executed by auto-start.sh during the img setup process
 # and when there is an update pushed to naobian or when the user
 # invokes the script with 'bash ~/.naomi/scripts/naobian-setup.sh'
+##########################################################################
 
 # Installing Flite TTS
     echo
@@ -74,6 +74,7 @@
     cd ~
     sudo apt-get install python3 python3-pip
     pip3 install -r ~/Naomi/python_requirements.txt
+    chmod +x compile_translations.sh
     ./compile_translations.sh
     chmod a+x Naomi
 
