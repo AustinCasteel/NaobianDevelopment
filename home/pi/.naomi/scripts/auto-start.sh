@@ -364,17 +364,18 @@ function setup_wizard() {
     echo "========================================================================="
     echo "NAOMI SETUP:"
     echo "Naomi is continuously updated.  For most users it is recommended that"
-    echo "you run on the 'master' branch -- which always holds stable builds."
+    echo "you run on the 'master' branch which always holds stable builds released"
+    echo "every 6 months where as the 'dev' branch is always in development."
     echo "Note: 'dev' comes with automatic updates."
     echo -e "\e[1;36m"
-    echo "  1) Use the recommendations ('master')"
-    echo "  2) I'm a core developer, put me on 'dev'"
+    echo "  1) Use the recommended ('master')"
+    echo "  2) I'm a developer or want the cutting edge, put me on 'dev'"
     echo -n -e "\e[1;36mChoice [\e[1;35m1\e[1;36m-\e[1;35m2\e[1;36m]: \e[0m"
     while true; do
         read -N1 -s key
         case $key in
          1)
-            echo -e "\e[1;32m$key - Easy street, 'master'"
+            echo -e "\e[1;32m$key - Easy Peasy!"
             echo '{"use_branch":"master", "auto_update": false}' > ~/.naomi/configs/.naobian_options.json
             cd ~/Naomi
             git checkout master
@@ -382,7 +383,7 @@ function setup_wizard() {
             break
             ;;
          2)
-            echo -e "\e[1;32m$key - I know what I'm doing and am a responsible human."
+            echo -e "\e[1;32m$key - You know what you are doing!"
             echo '{"use_branch":"dev", "auto_update": true}' > ~/.naomi/configs/.naobian_options.json
             cd ~/Naomi
             git checkout dev
