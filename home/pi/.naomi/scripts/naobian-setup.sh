@@ -109,7 +109,7 @@
 
 # Formatting cmudict.dict and train model.fst
     echo
-    echo -e "\e[1;32mFormatting cmudict.dict and train model.fst...\e[0m"
+    echo -e "\e[1;32mFormatting cmudict.dict and training model.fst...\e[0m"
     cd ~
     cd pocketsphinx-python/pocketsphinx/model/en-us
     cat cmudict-en-us.dict | perl -pe 's/^([^\s]*)\(([0-9]+)\)/\1/;s/\s+/ /g;s/^\s+//;s/\s+$//; @_=split(/\s+/); $w=shift(@_);$_=$w."\t".join(" ",@_)."\n";' > cmudict-en-us.formatted.dict
