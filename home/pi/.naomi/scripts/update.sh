@@ -65,12 +65,12 @@ then
     git checkout naomi-dev
 
     echo -e "\e[1;36m"
-    echo "Beginning the Naobian build process.  This will"
-    echo -e "take around 45 minutes. Results will be in the \e[1;35m~/.naomi/build.log"
+    echo "Beginning the Naobian build process.  This will take around"
+    echo -e "45 minutes to an hour. Results will be in the \e[1;35m~/.naomi/build.log"
+    sleep 10
     bash ~/.naomi/scripts/naobian-setup.sh -y 2>&1 | tee ~/.naomi/build.log
-    sleep 2
     echo
-    echo -e "\e[1;36mBuild complete.  Press any key to review the output before it is deleted."
+    echo -e "\e[1;36mBuild complete.  Press any key to review the output."
     read -N1 -s key
     nano ~/.naomi/build.log
 fi
