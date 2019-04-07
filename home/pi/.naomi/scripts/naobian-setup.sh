@@ -72,7 +72,7 @@
     echo
     echo -e "\e[1;32mRunning Naomi Setup...\e[0m"
     cd ~
-    sudo apt-get install python3 python3-pip
+    sudo apt-get install python3 python3-pip -y
     pip3 install -r ~/Naomi/python_requirements.txt
     chmod +x compile_translations.sh
     ./compile_translations.sh
