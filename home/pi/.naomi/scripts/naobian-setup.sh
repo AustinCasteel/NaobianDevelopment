@@ -82,7 +82,7 @@
     echo
     echo -e "\e[1;32mInstalling & Building sphinxbase...\e[0m"
     cd ~
-    sudo apt install swig libasound2-dev bison
+    sudo apt install swig libasound2-dev bison -y
     git clone --recursive https://github.com/cmusphinx/pocketsphinx-python.git
     cd pocketsphinx-python/sphinxbase
     ./autogen.sh
