@@ -65,7 +65,7 @@
     sudo make install
     sudo ldconfig
     cd ~
-    sudo pip install cmuclmtk -y
+    sudo pip install cmuclmtk
     cd ~
 
 # Running Naomi Setup
