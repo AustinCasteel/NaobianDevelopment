@@ -1,0 +1,23 @@
+active_stt:
+  engine: sphinx
+  reply: ''
+  response: ''
+audio:
+  input_device: default-card-device
+  output_device: default-card-alsa
+audio_engine: alsa
+email:
+  address: ''
+  imap: ''
+flite-tts:
+  voice: slt
+keyword: Naomi
+language: en-US
+phone_number: ''
+pocketsphinx:
+  fst_model: /home/pi/pocketsphinx-python/pocketsphinx/model/en-us/train/model.fst
+  hmm_dir: /home/pi/pocketsphinx-python/pocketsphinx/model/en-us/en-us
+  phonetisaurus_executable: phonetisaurus-g2pfst
+prefers_email: false
+timezone: America/New_York
+tts_engine: flite-tts
