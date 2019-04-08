@@ -73,7 +73,9 @@
     echo -e "\e[1;32mRunning Naomi Setup...\e[0m"
     cd ~
     sudo apt-get install python3 python3-pip -y
+    sudo apt-get install gettext portaudio19-dev libasound2-dev -y
     pip3 install -r ~/Naomi/python_requirements.txt
+    cd ~/Naomi
     chmod +x compile_translations.sh
     ./compile_translations.sh
     chmod a+x Naomi
