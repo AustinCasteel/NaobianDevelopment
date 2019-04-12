@@ -50,7 +50,7 @@
     sudo make install
     cd python
     cp -iv ../.libs/Phonetisaurus.so ./
-    sudo python setup.py install
+    sudo python3 setup.py install
     cd ~
 
 # Installing & Building cmuclmtk
@@ -107,7 +107,7 @@
     echo -e "\e[1;32mInstalling PocketSphinx library...\e[0m"
     cd ~
     cd pocketsphinx-python
-    sudo python setup.py install
+    sudo python3 setup.py install
 
 # Formatting cmudict.dict and train model.fst
     echo
