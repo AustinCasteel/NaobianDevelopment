@@ -69,8 +69,6 @@ then
     read -p "You should have heard the recording playback. Press enter to continue"
 
     echo "========================================================================="
-    echo "Updating the python virtual environment"
-    bash ~/.naomi/scripts/naobian-setup.sh
 
     echo "stage-3" > matrix_setup_state.txt
     read -p "Your Matrix microphone is now setup! Press enter to perform the final reboot and start Naomi."

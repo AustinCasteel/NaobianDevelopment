@@ -68,3 +68,19 @@ Naobian will reboot, prompting the autostart but erroring itself out.
 * Remove the SD card
 * Create an IMG file named "Naobian_RELEASE-NUMBER.img"
 * Compress the IMG using pishrink.sh
+
+
+
+
+
+
+
+
+
+
+## Install Naomi script
+* cd ~
+* mkdir ~/Naomi
+* cd ~/Naomi/
+* wget https://raw.githubusercontent.com/AustinCasteel/NaobianDevelopment/NaomiSetup/home/pi/.naomi/scripts/naomi-setup2.sh
+* bash naomi-setup2.sh
