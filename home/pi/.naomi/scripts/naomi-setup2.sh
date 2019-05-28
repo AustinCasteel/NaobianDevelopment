@@ -54,7 +54,7 @@ echo "     \/__/         \/__/         \/__/         \/__/                 "
 
 alias naomi-setup-wizard="cd ~ && touch first_run && source ~/naomi/naomi-setup.sh"
 
-if [ -f ~/first_run || ! -f ~/.naomi/configs/profile.yml]
+if [[ -f ~/first_run || ! -f ~/.naomi/configs/profile.yml]]
 then
     echo -e "\e[1;36m"
     echo "Welcome to Naomi. This process is designed to make getting started with"
